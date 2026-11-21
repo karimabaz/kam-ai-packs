@@ -1,0 +1,17 @@
+# One-time: point the Discover packs release tag at this commit, so the release's source archive holds only this
+# README. Removed right after it runs.
+name: Retag release
+on:
+  push:
+    paths: [".github/workflows/retag.yml"]
+permissions:
+  contents: write
+jobs:
+  retag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set -euo pipefail
+          git tag -f discover-packs-v1 && git push -f origin refs/tags/discover-packs-v1
+          git ls-remote --tags origin
